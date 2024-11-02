@@ -61,7 +61,7 @@ exports.login = catchAsync(async (req, res, next) => {
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
-  console.log("hjdshbbvjvd",token)
+  // console.log("hjdshbbvjvd",token)
 
   return res.status(200)
     .cookie("token", token, { 
@@ -113,7 +113,7 @@ exports.logout = (req, res) => {
 // });
 exports.protect = catchAsync(async (req, res, next) => {
   const token = req.cookies.token;
-  console.error("tokennnnnn", token)
+  // console.error("tokennnnnn", token)
 
 
 

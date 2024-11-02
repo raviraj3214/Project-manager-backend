@@ -4,8 +4,6 @@ const app = require('./app');
 
 dotenv.config({ path: './.env' });
 
-console.log(process.env.NODE_ENV);
-
 process.on('uncaughtException', (err) => {
   console.log('Uncaught Exception 💥');
   console.log(err.name);

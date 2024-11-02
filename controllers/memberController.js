@@ -1,7 +1,9 @@
 const Member = require('../model/memberModel.js'); // Adjust the path as needed
 const User = require('../model/userModel.js'); // Adjust the path as needed
+import catchAsync from '../utils/catchAsync.js';
 
-exports.addMemberByEmail = async (req, res) => {
+exports.addMemberByEmail = catchAsync(
+async (req, res) => {
     try {
       const { email } = req.body;
     
@@ -35,7 +37,7 @@ exports.addMemberByEmail = async (req, res) => {
         message: error.message,
       });
     }
-  };
+  };)
 
 
 //   exports.getSuggestionsByEmail = async (req, res) => {
@@ -102,7 +104,7 @@ exports.addMemberByEmail = async (req, res) => {
 
 
 
-exports.getSuggestionsByEmail = async (req, res) => {
+exports.getSuggestionsByEmail = catchAsync(async (req, res) => {
   try {
     const { email } = req.query; // Partial email to search
     const userId = req.user.id; // ID of the authenticated user
@@ -138,4 +140,4 @@ exports.getSuggestionsByEmail = async (req, res) => {
       err: error.message,
     });
   }
-};
+};)

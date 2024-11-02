@@ -86,7 +86,7 @@ exports.getTask = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getTasksByMemberUserId = async (req, res) => {
+exports.getTasksByMemberUserId = catchAsync(async (req, res) => {
   try {
     const { userId } = req.params;
 
@@ -109,7 +109,7 @@ exports.getTasksByMemberUserId = async (req, res) => {
       message: error.message,
     });
   }
-};
+};)
 // exports.addTaskToMember = async (req, res) => {
 //   try {
 //     const { email, taskTitle, priority, checklists, dueDate } = req.body;

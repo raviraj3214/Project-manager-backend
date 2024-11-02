@@ -30,7 +30,7 @@ exports.getUser = catchAsync(async (req, res) => {
 
 
 // Controller to get a user by email
-exports.getUserByEmail = async (req, res) => {
+exports.getUserByEmail = catchAsync(async (req, res) => {
   try {
     const { email } = req.query;
 
@@ -58,7 +58,7 @@ exports.getUserByEmail = async (req, res) => {
       message: error.message,
     });
   }
-};
+};)
 
 
 // exports.updateUser = catchAsync(async (req, res) => {
