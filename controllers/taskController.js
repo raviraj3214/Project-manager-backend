@@ -216,42 +216,90 @@ exports.createTask = catchAsync(async (req, res, next) => {
   });
 });
 
+// exports.updateTask = catchAsync(async (req, res, next) => {
+//   const { taskId } = req.params;
+//   const { title, priority, checklists, dueDate, status,assignedTo,email } = req.body;
+//   if(email){
+//   const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+  
+
+//     // Find the existing Member document
+//     const member = await Member.findOne({ user: user._id });
+//     if (!member) {
+//       return res.status(400).json({ message: 'Member does not exist for this user' });
+//     }
+//   }
+
+//   const updatedTask = await Task.findOneAndUpdate(
+//     { _id: taskId},
+//     {
+//       title,
+//       priority,
+//       checklists,
+//       dueDate,
+//       status,
+//       assignedTo: member._id
+//     },
+//     { new: true, runValidators: true }
+//   );
+
+//   if (!updatedTask) {
+//     throw new Error('Task not found', 404);
+//   }
+
+//   res.status(200).json({
+//     status: 'success',
+//     data: { task: updatedTask },
+//   });
+// });
+
 exports.updateTask = catchAsync(async (req, res, next) => {
   const { taskId } = req.params;
-  const { title, priority, checklists, dueDate, status,assignedTo,email } = req.body;
-  const user = await User.findOne({ email });
+  const { title, priority, checklists, dueDate, status, assignedTo, email } = req.body;
+
+  let assignedMemberId = assignedTo;  
+
+  if (email) {
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Find the existing Member document
+     
     const member = await Member.findOne({ user: user._id });
     if (!member) {
       return res.status(400).json({ message: 'Member does not exist for this user' });
     }
 
+    assignedMemberId = member._id;  
+  }
+
   const updatedTask = await Task.findOneAndUpdate(
-    { _id: taskId},
+    { _id: taskId },
     {
       title,
       priority,
       checklists,
       dueDate,
       status,
-      assignedTo: member._id
+      ...(assignedMemberId && { assignedTo: assignedMemberId })  
     },
     { new: true, runValidators: true }
   );
 
   if (!updatedTask) {
-    throw new Error('Task not found', 404);
+    return next(new Error('Task not found', 404));  
   }
 
-  res.status(200).json({
+  res.status(200).json({ 
     status: 'success',
     data: { task: updatedTask },
   });
 });
+
 
 exports.deleteTask = catchAsync(async (req, res, next) => {
   const { taskId } = req.params;
