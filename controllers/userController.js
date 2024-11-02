@@ -58,7 +58,7 @@ exports.getUserByEmail = catchAsync(async (req, res) => {
       message: error.message,
     });
   }
-};)
+})
 
 
 // exports.updateUser = catchAsync(async (req, res) => {

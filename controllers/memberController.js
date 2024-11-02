@@ -1,6 +1,6 @@
+const catchAsync =  require('../utils/catchAsync.js')
 const Member = require('../model/memberModel.js'); // Adjust the path as needed
 const User = require('../model/userModel.js'); // Adjust the path as needed
-import catchAsync from '../utils/catchAsync.js';
 
 exports.addMemberByEmail = catchAsync(
 async (req, res) => {
@@ -37,7 +37,7 @@ async (req, res) => {
         message: error.message,
       });
     }
-  };)
+  })
 
 
 //   exports.getSuggestionsByEmail = async (req, res) => {
@@ -140,4 +140,4 @@ exports.getSuggestionsByEmail = catchAsync(async (req, res) => {
       err: error.message,
     });
   }
-};)
+})

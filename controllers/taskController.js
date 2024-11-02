@@ -109,7 +109,7 @@ exports.getTasksByMemberUserId = catchAsync(async (req, res) => {
       message: error.message,
     });
   }
-};)
+});
 // exports.addTaskToMember = async (req, res) => {
 //   try {
 //     const { email, taskTitle, priority, checklists, dueDate } = req.body;
