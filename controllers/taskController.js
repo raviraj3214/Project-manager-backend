@@ -218,7 +218,17 @@ exports.createTask = catchAsync(async (req, res, next) => {
 
 exports.updateTask = catchAsync(async (req, res, next) => {
   const { taskId } = req.params;
-  const { title, priority, checklists, dueDate, status } = req.body;
+  const { title, priority, checklists, dueDate, status,assignedTo,email } = req.body;
+  const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find the existing Member document
+    const member = await Member.findOne({ user: user._id });
+    if (!member) {
+      return res.status(400).json({ message: 'Member does not exist for this user' });
+    }
 
   const updatedTask = await Task.findOneAndUpdate(
     { _id: taskId},
@@ -228,6 +238,7 @@ exports.updateTask = catchAsync(async (req, res, next) => {
       checklists,
       dueDate,
       status,
+      assignedTo: member._id
     },
     { new: true, runValidators: true }
   );
@@ -251,7 +262,6 @@ exports.deleteTask = catchAsync(async (req, res, next) => {
 
   const task = await Task.findOneAndDelete({
     _id: taskId,
-    createdBy: req.user._id,
   });
 
   if (!task) {
