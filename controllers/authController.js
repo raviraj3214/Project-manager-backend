@@ -67,6 +67,7 @@ exports.login = catchAsync(async (req, res, next) => {
     .cookie("token", token, { 
         httpOnly: true, 
         sameSite: 'strict',
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 1 * 24 * 60 * 60 * 1000,
     })
     .json({
@@ -80,7 +81,7 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.logout = (req, res) => {
   return res
     .status(200)
-    .clearCookie("token", { httpOnly: true, sameSite: 'strict' })
+    .clearCookie("token", { httpOnly: true, sameSite: 'strict', secure: process.env.NODE_ENV === 'production', })
     .json({ message: 'Logout successful' });
 };
 
